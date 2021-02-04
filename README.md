@@ -36,6 +36,6 @@ For zooming in and out, You have number of options:
 <img src="images/explorer-2021T0755.png" alt="Mandelbrot Set" width="45%" >
 <img src="images/explorer-2021T0614.png" alt="Mandelbrot Set" width="45%" >
 <img src="images/explorer-2021T19170.png" alt="Mandelbrot Set" width="45%" >
-<img src="images/explorer-2021T210224.png" alt="Mandelbrot Set" width="45%" >
+<img src="images/explorer-2021T21024.png" alt="Mandelbrot Set" width="45%" >
 
 
