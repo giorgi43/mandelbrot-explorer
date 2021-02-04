@@ -31,6 +31,9 @@ For zooming in and out, You have number of options:
 * With `+` and `-` keys
 * or you can select rectangular region with mouse on the screen to zoom into
 
+As you zoom further, number of iterations or bailout value must be increased for more details of the set to be shown.
+ `j` `k` keys can be used to decrease/increase this value accordingly. keep in mind that on high bailout values CPU will take more time
+ for computation.
 Use `P` key to save current frame as png image
 ## Command line options
 `Not implemented yet`
