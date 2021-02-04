@@ -30,6 +30,7 @@ For zooming in and out, You have number of options:
 * Using mouse scroll wheel
 * With `+` and `-` keys
 * or you can select rectangular region with mouse on the screen to zoom into
+
 Use `P` key to save current frame as png image
 ## Command line options
 `Not implemented yet`
