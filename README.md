@@ -34,7 +34,8 @@ For zooming in and out, You have number of options:
 As you zoom further, number of iterations or bailout value must be increased for more details of the set to be shown.
  `J` `K` keys can be used to decrease/increase this value accordingly. keep in mind that on high bailout values CPU will take more time
  for computation.
-Use `P` key to save current frame as png image
+
+To save current frame as high resolution png image press `P` key.
 ## Command line options
 `Not implemented yet`
 ## Some images generated with this program
