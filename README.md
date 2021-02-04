@@ -29,6 +29,6 @@ Use `W` `A` `S` `D` keys for moving around.
 For zooming in and out, You have number of options:
 * Using mouse scroll wheel
 * With `+` and `-` keys
-* or, you can select rectangular region on the screen to zoom into
+* or you can select rectangular region with mouse on the screen to zoom into
 ## Command line options
 
