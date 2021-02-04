@@ -33,7 +33,9 @@ For zooming in and out, You have number of options:
 ## Command line options
 `Not implemented yet`
 ## Some images generated with this program
-<img src="images/explorer-2021T0755.png" alt="Mandelbrot Set" width="100%" >
-<img src="images/explorer-2021T0614.png" alt="Mandelbrot Set" width="100%" >
-<img src="images/explorer-2021T19170.png" alt="Mandelbrot Set" width="100%" >
+<img src="images/explorer-2021T0755.png" alt="Mandelbrot Set" width="45%" >
+<img src="images/explorer-2021T0614.png" alt="Mandelbrot Set" width="45%" >
+<img src="images/explorer-2021T19170.png" alt="Mandelbrot Set" width="45%" >
+<img src="images/explorer-2021T210224.png" alt="Mandelbrot Set" width="45%" >
+
 
