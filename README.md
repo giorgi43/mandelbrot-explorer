@@ -25,7 +25,7 @@ or manually:
 g++ *.cpp -o explorer -lsfml-graphics -lsfml-system -lsfml-window -fopenmp -ffast-math -O3
 ```
 ## Usage
-Use `W``A``S``D` keys for moving around.
+Use `W` `A` `S` `D` keys for moving around.
 For zooming in and out, You have number of options:
 * Using mouse scroll wheel
 * With `+` and `-` keys
