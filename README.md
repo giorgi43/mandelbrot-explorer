@@ -15,6 +15,7 @@ git clone https://github.com/giorgi43/mandelbrot-explorer.git
 cd mandelbrot-explorer/
 ```
 now, build with cmake:
+```
 cmake -S . -B bin
 cd bin/
 make
