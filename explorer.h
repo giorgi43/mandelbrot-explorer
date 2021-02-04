@@ -8,7 +8,7 @@ public:
     Explorer() = delete;
     Explorer(const Explorer&) = delete;
     Explorer& operator==(const Explorer&) = delete;
-    Explorer(const std::string& window_title, unsigned width, unsigned height, unsigned iterations=100, unsigned out_width=900, unsigned out_height=600);
+    Explorer(const std::string& window_title, unsigned width, unsigned height, unsigned iterations=100, unsigned out_width=1280, unsigned out_height=720);
     ~Explorer() = default;
     bool windowIsOpen() const { return m_window.isOpen(); };
     void handleInput();
@@ -45,7 +45,7 @@ private:
     void setSelectBounds(); // set new imaginary plane bounds based on selection box
     void makeZoom(double zoom);
     inline void render(sf::VertexArray& pixels, unsigned width, unsigned height);
-    void handleSelection(const sf::Event& e);
+    void handleMouse(const sf::Event& e);
     void handleKeyboard(const sf::Event& e);
 };
 

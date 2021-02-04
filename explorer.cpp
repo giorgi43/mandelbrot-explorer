@@ -32,7 +32,7 @@ void Explorer::handleInput() {
             m_window.close();
         }
         handleKeyboard(e);
-        handleSelection(e);
+        handleMouse(e);
     }
 }
 
@@ -174,7 +174,7 @@ std::string Explorer::generateFilename(const std::string &start) {
     return filename;
 }
 
-void Explorer::handleSelection(const sf::Event &e) {
+void Explorer::handleMouse(const sf::Event& e) {
     switch (e.type) {
         case sf::Event::MouseButtonPressed: {
             if (e.mouseButton.button == sf::Mouse::Left) {
@@ -208,6 +208,14 @@ void Explorer::handleSelection(const sf::Event &e) {
                 m_select.setSize(sf::Vector2f(w,h));
             }
         }
+        case sf::Event::MouseWheelScrolled: {
+            if (e.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                m_update = true;
+                makeZoom((e.mouseWheelScroll.delta > 0) ? m_zoom : 1/m_zoom);
+            }
+            break;
+        }
+
     }
 }
 
