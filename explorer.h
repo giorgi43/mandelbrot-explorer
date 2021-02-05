@@ -5,22 +5,37 @@
 
 class Explorer {
 public:
-    Explorer() = delete;
+    static constexpr int escape_radius = 2;
+    static constexpr unsigned max_iterations = 4000;
+    static constexpr unsigned min_iterations = 100;
+
+    struct Size2i {
+        public:
+            unsigned width, height;
+            Size2i(unsigned w, unsigned h) : width(verify(w)), height(verify(h)) {};
+        private:
+            static unsigned verify(unsigned n) {
+                if (n <= 0) throw std::runtime_error("Width and height must be positive integers");
+                return n;
+            }
+    };
+
     Explorer(const Explorer&) = delete;
     Explorer& operator==(const Explorer&) = delete;
-    Explorer(const std::string& window_title, unsigned width, unsigned height, unsigned iterations=100, unsigned out_width=1280, unsigned out_height=720);
+    Explorer(const std::string& window_title, const Size2i& window_size = {1280, 720}, const Size2i& output_image_size = {1920, 1080}, unsigned iterations=100);
     ~Explorer() = default;
     bool windowIsOpen() const { return m_window.isOpen(); };
     void handleInput();
     void update();
     void display();
+
 private:
     sf::RenderWindow m_window;
-    const unsigned m_width, m_height;
+    const Size2i m_window_size;
     unsigned m_iterations;
     sf::VertexArray m_pixels;
 
-    unsigned m_out_width, m_out_height;
+    const Size2i m_out_image_size;
     sf::RenderTexture m_out_texture;
     sf::VertexArray m_out_pixels;
 
@@ -34,17 +49,15 @@ private:
     bool m_mouse_pressed = false;
 
     sf::RectangleShape m_select;
-    static constexpr int escape_radius = 2;
-    static constexpr unsigned max_iterations = 4000;
-    static constexpr unsigned min_iterations = 100;
 
     static sf::Color hsv_to_rgb(int hue, float sat, float val);
     static std::string generateFilename(const std::string& start = "");
     double calculateIterations(const std::complex<double>& c, unsigned iterations) const;
-    void initPixels(sf::VertexArray& pixels, unsigned width, unsigned height);
+    void initPixels(sf::VertexArray& pixels, const Size2i& size);
     void setSelectBounds(); // set new imaginary plane bounds based on selection box
     void makeZoom(double zoom);
-    inline void render(sf::VertexArray& pixels, unsigned width, unsigned height);
+    inline void render(sf::VertexArray& pixels, const Size2i& size);
+    void saveToFile(const std::string& filename);
     void handleMouse(const sf::Event& e);
     void handleKeyboard(const sf::Event& e);
 };

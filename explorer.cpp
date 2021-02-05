@@ -4,18 +4,19 @@
 #include <ctime>
 #include <stdexcept>
 
-Explorer::Explorer(const std::string &window_title, unsigned width, unsigned height, unsigned iterations, unsigned out_width, unsigned out_height)
-    : m_window(sf::VideoMode(width, height), window_title, sf::Style::Titlebar | sf::Style::Close),
-      m_width(width), m_height(height), m_iterations(iterations), m_out_width(out_width), m_out_height(out_height) {
+Explorer::Explorer(const std::string &window_title, const Size2i& window_size, const Size2i& output_image_size, unsigned iterations)
+    : m_window(sf::VideoMode(window_size.width, window_size.height), window_title, sf::Style::Titlebar | sf::Style::Close),
+      m_window_size(window_size), m_out_image_size(output_image_size),
+      m_iterations{(iterations >= min_iterations && iterations <= max_iterations) ? iterations : throw std::runtime_error("Iterations value out of bounds")} {
 
     m_window.setVerticalSyncEnabled(true);
     m_window.setPosition(sf::Vector2i(400,400));
-    m_pixels = sf::VertexArray(sf::Points, m_width*m_height);
-    initPixels(m_pixels, m_width, m_height);
+    m_pixels = sf::VertexArray(sf::Points, m_window_size.width*m_window_size.height);
+    initPixels(m_pixels, m_window_size);
 
-    m_out_pixels = sf::VertexArray(sf::Points, m_out_width*m_out_height);
-    initPixels(m_out_pixels, m_out_width, m_out_height);
-    if (!m_out_texture.create(m_out_width, m_out_height)) {
+    m_out_pixels = sf::VertexArray(sf::Points, m_out_image_size.width*m_out_image_size.height);
+    initPixels(m_out_pixels, m_out_image_size);
+    if (!m_out_texture.create(m_out_image_size.width, m_out_image_size.height)) {
        throw std::runtime_error("Texture creation error");
     }
 
@@ -39,20 +40,20 @@ void Explorer::handleInput() {
 void Explorer::update() {
     if (!m_update) return;
     m_update = false;
-    render(m_pixels, m_width, m_height);
+    render(m_pixels, m_window_size);
 }
 
-void Explorer::render(sf::VertexArray& pixels, unsigned width, unsigned height) {
+void Explorer::render(sf::VertexArray& pixels, const Size2i& size) {
     #pragma omp parallel for schedule(dynamic)
-    for (unsigned x = 0; x < width; x++) {
-        for (unsigned y = 0; y < height; y++) {
-            std::complex<double> c(m_re_start + (x / static_cast<double>(width)) * (m_re_end - m_re_start),
-                                   m_im_start + (y / static_cast<double>(height)) * (m_im_end - m_im_start));
+    for (unsigned x = 0; x < size.width; x++) {
+        for (unsigned y = 0; y < size.height; y++) {
+            std::complex<double> c(m_re_start + (x / static_cast<double>(size.width)) * (m_re_end - m_re_start),
+                                   m_im_start + (y / static_cast<double>(size.height)) * (m_im_end - m_im_start));
             auto iter = calculateIterations(c, m_iterations);
             int h = 255 * iter / m_iterations;
             float s = 255.0f;
             float v = (iter < m_iterations) ? 255.0f : 0.0f;
-            pixels[x*height + y].color = hsv_to_rgb(h,s,v);
+            pixels[x*size.height + y].color = hsv_to_rgb(h,s,v);
         }
     }
 }
@@ -79,8 +80,8 @@ void Explorer::setSelectBounds() {
             x0 = x0 - std::abs(select_width);
     }
 
-    const double re_factor = (m_re_end - m_re_start) / (m_width-1);
-    const double im_factor = (m_im_end - m_im_start) / (m_height-1);
+    const double re_factor = (m_re_end - m_re_start) / (m_window_size.width-1);
+    const double im_factor = (m_im_end - m_im_start) / (m_window_size.height-1);
     const double new_re_start = m_re_start + (re_factor * x0);
     const double new_re_end = m_re_start + (re_factor * (x0 + std::abs(select_width)));
     const double new_im_start = m_im_start + (im_factor * y0);
@@ -94,10 +95,10 @@ void Explorer::setSelectBounds() {
     m_im_end = new_im_end;
 }
 
-void Explorer::initPixels(sf::VertexArray& pixels, unsigned width, unsigned height) {
-    for (unsigned int x = 0; x < width; x++) {
-        for (unsigned int y = 0; y < height; y++) {
-            pixels[x*height + y].position = sf::Vector2f(x,y);
+void Explorer::initPixels(sf::VertexArray& pixels, const Size2i& size) {
+    for (unsigned int x = 0; x < size.width; x++) {
+        for (unsigned int y = 0; y < size.height; y++) {
+            pixels[x*size.height + y].position = sf::Vector2f(x,y);
         }
     }
 }
@@ -110,7 +111,6 @@ double Explorer::calculateIterations(const std::complex<double> &c, unsigned max
         if (std::sqrt(std::norm(z)) > Explorer::escape_radius) break;
         z = z*z + c;
     }
-    //return iterations;
     if (iterations == m_iterations) {
         return m_iterations;
     }
@@ -174,6 +174,21 @@ std::string Explorer::generateFilename(const std::string &start) {
     return filename;
 }
 
+void Explorer::saveToFile(const std::string& filename) {
+    std::cout << "Saving current frame\n";
+    render(m_out_pixels, m_out_image_size);
+    m_out_texture.clear();
+    m_out_texture.draw(m_out_pixels);
+    m_out_texture.display();
+    const auto texture = m_out_texture.getTexture();
+    const auto image = texture.copyToImage();
+    if (image.saveToFile(filename)) {
+        std::cout << "Saved to file: " << filename << std::endl;
+    } else {
+        std::cout << "Could not save to file" << std::endl;
+    }
+}
+
 void Explorer::handleMouse(const sf::Event& e) {
     switch (e.type) {
         case sf::Event::MouseButtonPressed: {
@@ -215,7 +230,6 @@ void Explorer::handleMouse(const sf::Event& e) {
             }
             break;
         }
-
     }
 }
 
@@ -224,11 +238,9 @@ void Explorer::handleKeyboard(const sf::Event &e) {
         m_update = true;
         switch (e.key.code) {
             case sf::Keyboard::Equal: // zoom in
-                makeZoom(m_zoom);
-                break;
+                makeZoom(m_zoom); break;
             case sf::Keyboard::Hyphen: // zoom out
-                makeZoom(1/m_zoom);
-                break;
+                makeZoom(1/m_zoom); break;
             case sf::Keyboard::A:
                 m_re_start -= m_step;
                 m_re_end -= m_step;
@@ -253,19 +265,8 @@ void Explorer::handleKeyboard(const sf::Event &e) {
                 break;
             case sf::Keyboard::P: {
                 m_update = false;
-                std::cout << "Saving current frame\n";
-                render(m_out_pixels, m_out_width, m_out_height);
-                m_out_texture.clear();
-                m_out_texture.draw(m_out_pixels);
-                m_out_texture.display();
-                const auto texture = m_out_texture.getTexture();
-                const auto image = texture.copyToImage();
                 const auto filename = "../images/" + Explorer::generateFilename("explorer") + ".png";
-                if (image.saveToFile(filename)) {
-                    std::cout << "Saved to file: " << filename << std::endl;
-                } else {
-                    std::cout << "Could not save to file" << std::endl;
-                }
+                saveToFile(filename);
                 break;
             }
             default: m_update = false; break;
