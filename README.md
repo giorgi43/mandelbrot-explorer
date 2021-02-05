@@ -37,7 +37,16 @@ As you zoom further, number of iterations or bailout value must be increased for
 
 To save current frame as high resolution png image press `P` key.
 ## Command line options
-`Not implemented yet`
+```bash
+Interactive mandelbrot explorer
+Usage:
+  explorer [OPTION...]
+
+  -i, --iterations arg  Bailout value (default: 100)
+  -o, --output-dir arg  Output directory path to save images (default: ./)
+  -h, --help            Print this help message and exit
+
+```
 ## Some images generated with this program
 <p align="center">
     <img src="images/explorer-2021T0755.png" alt="Mandelbrot Set" width="49%" ></img>
