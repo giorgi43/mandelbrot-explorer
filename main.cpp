@@ -8,13 +8,13 @@ using std::endl;
 
 cxxopts::ParseResult parseArgs(cxxopts::Options parser, int argc, char** argv[]) {
     try {
-		cxxopts::ParseResult res = parser.parse(argc, *argv);
-		return res;
+        cxxopts::ParseResult res = parser.parse(argc, *argv);
+        return res;
 	} catch (const cxxopts::OptionParseException& e) {
-		cerr << "Could not parse command line arguments\n";
+        cerr << "Could not parse command line arguments\n";
         std::cerr << e.what() << std::endl;
         std::exit(0);
-	}
+    }
 }
 
 int main(int argc, char* argv[]) {
