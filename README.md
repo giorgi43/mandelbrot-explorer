@@ -6,23 +6,23 @@ thats quite straightforward since generating Mandelbrot set is [Embarrassingly p
 ## Build
 You need C++ compiler with support of openMP. GCC provides support since version 4.2.0. Also you need [SFML](https://www.sfml-dev.org/) library installed. you can build
 from sources or on Debian/Ubuntu just run:
-```
-apt install libsfml-dev
+```bash
+# apt install libsfml-dev
 ```
 then, clone this repository and `cd` to its directory
-```
-git clone https://github.com/giorgi43/mandelbrot-explorer.git
-cd mandelbrot-explorer/
+```bash
+$ git clone https://github.com/giorgi43/mandelbrot-explorer.git
+$ cd mandelbrot-explorer/
 ```
 now, build with cmake:
-```
-cmake -S . -B bin
-cd bin/
+```bash
+$ cmake -S . -B bin
+$ cd bin/
 make
 ```
 or manually:
-```
-g++ *.cpp -o explorer -lsfml-graphics -lsfml-system -lsfml-window -fopenmp -ffast-math -O3
+```bash
+$ g++ *.cpp -o explorer -lsfml-graphics -lsfml-system -lsfml-window -fopenmp -ffast-math -O3
 ```
 ## Usage
 Use `W` `A` `S` `D` keys for moving around.
