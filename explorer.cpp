@@ -4,10 +4,10 @@
 #include <ctime>
 #include <stdexcept>
 
-Explorer::Explorer(const std::string &window_title, const Size2i& window_size, const Size2i& output_image_size, unsigned iterations)
-    : m_window(sf::VideoMode(window_size.width, window_size.height), window_title, sf::Style::Titlebar | sf::Style::Close),
-      m_window_size(window_size), m_out_image_size(output_image_size),
-      m_iterations{(iterations >= min_iterations && iterations <= max_iterations) ? iterations : throw std::runtime_error("Iterations value out of bounds")} {
+Explorer::Explorer(const std::string &window_title, const Size2i& window_size, const Size2i& output_image_size, unsigned iterations, const std::string& output_dir)
+    : m_window_size(window_size), m_out_image_size(output_image_size), m_out_dir(output_dir),
+      m_iterations{(iterations >= min_iterations && iterations <= max_iterations) ? iterations : throw std::runtime_error("Iterations value out of bounds")},
+      m_window(sf::VideoMode(window_size.width, window_size.height), window_title, sf::Style::Titlebar | sf::Style::Close) {
 
     m_window.setVerticalSyncEnabled(true);
     m_window.setPosition(sf::Vector2i(400,400));
@@ -265,7 +265,7 @@ void Explorer::handleKeyboard(const sf::Event &e) {
                 break;
             case sf::Keyboard::P: {
                 m_update = false;
-                const auto filename = "../images/" + Explorer::generateFilename("explorer") + ".png";
+                const auto filename = m_out_dir + Explorer::generateFilename("explorer") + ".png";
                 saveToFile(filename);
                 break;
             }

@@ -22,7 +22,7 @@ public:
 
     Explorer(const Explorer&) = delete;
     Explorer& operator==(const Explorer&) = delete;
-    Explorer(const std::string& window_title, const Size2i& window_size = {1280, 720}, const Size2i& output_image_size = {1920, 1080}, unsigned iterations=100);
+    Explorer(const std::string& window_title, const Size2i& window_size = {1280, 720}, const Size2i& output_image_size = {1920, 1080}, unsigned iterations=100, const std::string& output_dir="./");
     ~Explorer() = default;
     bool windowIsOpen() const { return m_window.isOpen(); };
     void handleInput();
@@ -39,6 +39,9 @@ private:
     sf::RenderTexture m_out_texture;
     sf::VertexArray m_out_pixels;
 
+    const std::string m_out_dir;
+
+    // complex plane bounds make 16:9 ration
     double m_re_start = -2.0;
     double m_re_end = 1.56;
     double m_im_start = -1.0;
@@ -54,7 +57,7 @@ private:
     static std::string generateFilename(const std::string& start = "");
     double calculateIterations(const std::complex<double>& c, unsigned iterations) const;
     void initPixels(sf::VertexArray& pixels, const Size2i& size);
-    void setSelectBounds(); // set new imaginary plane bounds based on selection box
+    void setSelectBounds(); // set new complex plane bounds based on selection box
     void makeZoom(double zoom);
     inline void render(sf::VertexArray& pixels, const Size2i& size);
     void saveToFile(const std::string& filename);
