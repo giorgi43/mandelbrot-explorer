@@ -7,7 +7,7 @@ thats quite straightforward since generating Mandelbrot set is [Embarrassingly p
 You need C++ compiler with support of openMP. GCC provides support since version 4.2.0. Also you need [SFML](https://www.sfml-dev.org/) library installed. you can build
 from sources or on Debian/Ubuntu just run:
 ```bash
-# apt install libsfml-dev
+$ apt install libsfml-dev
 ```
 then, clone this repository and `cd` to its directory
 ```bash
@@ -18,7 +18,7 @@ now, build with cmake:
 ```bash
 $ cmake -S . -B bin
 $ cd bin/
-make
+$ make
 ```
 or manually:
 ```bash
