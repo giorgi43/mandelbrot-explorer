@@ -52,41 +52,5 @@ int main(int argc, char* argv[]) {
         explorer.display();
     }
 
-    //constexpr Palette<500, 6> p(test_palette);
-    //p.createPalette(test_palette);
-    //std::array<Color, 500>& palette = p.getPalette();
-
-    //static_assert(test_palette[0].getR() == 168);
-    //uint8_t a = 4;
-    //cout << static_cast<unsigned int>(c.getR()) << endl;
-
-    /*pl::Palette<500, 6> p(pl::test_colors);
-
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
-	window.setVerticalSyncEnabled(true);
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-	
-		for (int i = 0; i < 500; i++) {
-			sf::RectangleShape v(sf::Vector2f(1, 500));
-			v.setPosition(i,0);
-            sf::Color c(p[i].r, p[i].g, p[i].b, p[i].a);
-			v.setFillColor(c);
-			window.draw(v);
-		}
-        
-        window.display();
-    }*/
-
-
     return 0;
 }
