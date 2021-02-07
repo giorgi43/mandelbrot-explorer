@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <iostream>
+
 namespace pl 
 {
 
@@ -31,7 +32,7 @@ public:
         return m_palette[index];
     }
     ~Palette() = default;
-public:
+private:
     std::size_t m_num_segments;
     std::size_t m_segment_size;
     Color m_palette[sz];
@@ -57,7 +58,6 @@ public:
 
     void createPalette(const std::array<Color, num_colors>& colors) {
         for (auto s = 0; s < m_num_segments; s++) {
-            std::cout << getStartIndex(s) << " " << getEndIndex(s) << std::endl;
             createGradient(colors[s], colors[s+1], getStartIndex(s), getEndIndex(s));
         }
     }
