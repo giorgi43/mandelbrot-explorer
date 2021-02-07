@@ -60,4 +60,4 @@ Usage:
 
 - [ ] Add more CLI options
 - [ ] Add color palettes
-- [ ] Add info screen on screen
+- [ ] Add info screen bar
