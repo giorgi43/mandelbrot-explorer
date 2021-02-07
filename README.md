@@ -56,3 +56,8 @@ Usage:
     <img src="images/explorer-2021T21024.png" alt="Mandelbrot Set" width="100%" ></img>
 </p>
 
+## TODO
+
+- [ ] Add more CLI options
+- [ ] Add color palettes
+- [ ] Add info screen on screen
