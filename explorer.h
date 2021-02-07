@@ -2,6 +2,9 @@
 #define EXPLORER_H
 #include <SFML/Graphics.hpp>
 #include <complex>
+#include <array>
+#include "palette.h"
+
 
 class Explorer {
 public:
@@ -24,7 +27,7 @@ public:
     Explorer& operator==(const Explorer&) = delete;
     Explorer(const std::string& window_title, const Size2i& window_size = {1280, 720}, const Size2i& output_image_size = {1920, 1080}, unsigned iterations=100, const std::string& output_dir="./");
     ~Explorer() = default;
-    bool windowIsOpen() const { return m_window.isOpen(); };
+    inline bool windowIsOpen() const { return m_window.isOpen(); };
     void handleInput();
     void update();
     void display();
@@ -41,7 +44,7 @@ private:
 
     const std::string m_out_dir;
 
-    // complex plane bounds make 16:9 ration
+    // complex plane bounds make 16:9 ratio
     double m_re_start = -2.0;
     double m_re_end = 1.56;
     double m_im_start = -1.0;
@@ -53,13 +56,15 @@ private:
 
     sf::RectangleShape m_select;
 
+    const pl::Palette<500, 6> dark_colors{pl::test_colors};
+
     static sf::Color hsv_to_rgb(int hue, float sat, float val);
     static std::string generateFilename(const std::string& start = "");
     double calculateIterations(const std::complex<double>& c, unsigned iterations) const;
     void initPixels(sf::VertexArray& pixels, const Size2i& size);
     void setSelectBounds(); // set new complex plane bounds based on selection box
     void makeZoom(double zoom);
-    inline void render(sf::VertexArray& pixels, const Size2i& size);
+    void render(sf::VertexArray& pixels, const Size2i& size);
     void saveToFile(const std::string& filename);
     void handleMouse(const sf::Event& e);
     void handleKeyboard(const sf::Event& e);

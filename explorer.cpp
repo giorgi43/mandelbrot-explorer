@@ -50,10 +50,11 @@ void Explorer::render(sf::VertexArray& pixels, const Size2i& size) {
             std::complex<double> c(m_re_start + (x / static_cast<double>(size.width)) * (m_re_end - m_re_start),
                                    m_im_start + (y / static_cast<double>(size.height)) * (m_im_end - m_im_start));
             auto iter = calculateIterations(c, m_iterations);
-            int h = 255 * iter / m_iterations;
-            float s = 255.0f;
-            float v = (iter < m_iterations) ? 255.0f : 0.0f;
-            pixels[x*size.height + y].color = hsv_to_rgb(h,s,v);
+            if (iter >= m_iterations) 
+                pixels[x*size.height + y].color = sf::Color(0,0,0,255);
+            else {
+                pixels[x*size.height + y].color = dark_colors[static_cast<size_t>(iter)%500].toSfmlColor();
+            }
         }
     }
 }
