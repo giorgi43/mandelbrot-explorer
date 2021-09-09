@@ -3,7 +3,7 @@ This is interactive [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_se
 Rendering is done by CPU so utilizing all of its available cores and making them run in parallel is good idea to make processing faster.
 thats quite straightforward since generating Mandelbrot set is [Embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) task. 
 
-Actually, i started rewriting this project, now it uses GUI so using program will be much easier.
+Actually, i started rewriting this project in C++/Qt, now it uses GUI so using program will be much easier.
 
 <p align="center">
   <img src="images/demo-gui.png" alt="GUI version" width="610" >
