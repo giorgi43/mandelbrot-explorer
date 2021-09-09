@@ -3,6 +3,14 @@ This is interactive [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_se
 Rendering is done by CPU so utilizing all of its available cores and making them run in parallel is good idea to make processing faster.
 thats quite straightforward since generating Mandelbrot set is [Embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel) task. 
 
+Actually, i started rewriting this project, now it uses GUI so you using program is much easier.
+
+<p align="center">
+  <img src="images/demo-gui.png" alt="GUI version" width="350" >
+</p>
+
+Maybe i will create new repository later, and archive this..
+
 ## Build
 You need C++ compiler with support of openMP. GCC provides support since version 4.2.0. Also you need [SFML](https://www.sfml-dev.org/) library installed. you can build
 from sources or on Debian/Ubuntu just run:
